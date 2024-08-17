@@ -1,0 +1,1 @@
+from internal.category.model.category_model import Category  # noqa :F401

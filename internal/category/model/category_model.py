@@ -1,22 +1,19 @@
-from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional, Dict
 
 from pydantic import BaseModel, Field
 
 
-class Location(BaseModel):
+class Category(BaseModel):
     id: str = Field(alias="_id")
-    latitude: float = Field(lt=90, gt=-90)
-    longitude: float = Field(lt=180, gt=-180)
-    created: datetime
+    name: str
+    created: datetime = None
     updated: Optional[datetime] = None
 
     def to_dict(self) -> Dict:
         return {
             "_id": self.id,
-            "latitude": self.latitude,
-            "longitude": self.longitude,
+            "name": self.name,
             "created": self.created.isoformat(),
             "updated": self.updated.isoformat() if self.updated is not None else None
         }

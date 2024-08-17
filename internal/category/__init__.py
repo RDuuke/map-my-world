@@ -1,0 +1,1 @@
+from internal.category.repository import CategoryRepository  # noqa :F401
