@@ -1,0 +1,1 @@
+from internal.location.model.location_model import Location  # noqa :F410
