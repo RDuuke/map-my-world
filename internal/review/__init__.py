@@ -1,0 +1,1 @@
+from internal.review.repository import ReviewRepository  # noqa :F401
