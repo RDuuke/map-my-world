@@ -9,7 +9,7 @@ class Location(BaseModel):
     id: str = Field(alias="_id")
     latitude: float = Field(lt=90, gt=-90)
     longitude: float = Field(lt=180, gt=-180)
-    created: datetime
+    created: Optional[datetime] = None
     updated: Optional[datetime] = None
 
     def to_dict(self) -> Dict:

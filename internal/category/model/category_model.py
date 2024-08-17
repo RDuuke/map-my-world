@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 class Category(BaseModel):
     id: str = Field(alias="_id")
     name: str
-    created: datetime = None
+    created: Optional[datetime] = None
     updated: Optional[datetime] = None
 
     def to_dict(self) -> Dict:
