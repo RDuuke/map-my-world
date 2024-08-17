@@ -1,0 +1,1 @@
+from internal.category.use_case.create_use_case import LocationCreateUseCase  # noqa :F401
