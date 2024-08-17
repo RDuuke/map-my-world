@@ -1,1 +1,1 @@
-from internal.category.repository import LocationRepository  # noqa :F401
+from internal.location.repository import LocationRepository  # noqa :F401

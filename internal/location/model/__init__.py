@@ -1,1 +1,1 @@
-from internal.category.model.location_model import Location  # noqa :F410
+from internal.location.model.location_model import Location  # noqa :F410
