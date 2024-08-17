@@ -1,0 +1,1 @@
+from internal.review.model.location_category_reviewed import Review  # noqa :F401
