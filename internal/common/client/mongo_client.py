@@ -13,7 +13,6 @@ class MongoDBClient:
         mongo_uri = os.environ.get('MONGO_URI', "mongodb://localhost:27017")
         self.client = AsyncIOMotorClient(mongo_uri)
         self.db = self.client["map_my_world_db"]
-        print(self.db)
 
     async def close(self):
         if self.client:

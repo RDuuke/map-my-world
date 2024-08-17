@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional, Dict
 
@@ -13,7 +14,7 @@ class Location(BaseModel):
 
     def to_dict(self) -> Dict:
         return {
-            "_id" : self.id,
+            "_id": self.id,
             "latitude": self.latitude,
             "longitude": self.longitude,
             "created": self.created.isoformat() if self.created is not None else None,

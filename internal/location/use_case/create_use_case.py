@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import HTTPException, status
 
 from internal.location import LocationRepository
@@ -16,4 +18,5 @@ class LocationCreateUseCase:
                 status_code=status.HTTP_409_CONFLICT
             )
 
+        location.created = datetime.now()
         await self.repository.create(location=location)
