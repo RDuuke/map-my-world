@@ -11,8 +11,8 @@ class Review(BaseModel):
     id: str = Field(alias="_id")
     location_id: str
     category_id: str
-    created: Optional[datetime] = None
     last_reviewed: Optional[datetime] = None
+    created: Optional[datetime] = None
 
     location: Optional[Location] = None
     category: Optional[Category] = None
