@@ -5,14 +5,14 @@ from internal.review.use_case import ReviewUpdateLastReviewUseCase
 from src.api.handler import BaseHandler
 
 
-class CreateUpdateLastReviewedHandler(BaseHandler):
+class ReviewUpdateLastReviewedHandler(BaseHandler):
     """
     Handler for updating the 'last_reviewed' field of a review.
     """
 
     def __init__(self, use_case: ReviewUpdateLastReviewUseCase):
         """
-        Initializes the CreateUpdateLastReviewedHandler with the provided use case.
+        Initializes the ReviewUpdateLastReviewedHandler with the provided use case.
 
         Args:
             use_case (ReviewUpdateLastReviewUseCase): The use case responsible for handling the review update logic.
