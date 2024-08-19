@@ -1,6 +1,6 @@
 import abc
 from abc import ABC
-from typing import Optional
+from typing import Optional, List
 
 from internal.location.model import Location
 
@@ -12,6 +12,10 @@ class LocationRepository(ABC):
     This class establishes a contract for concrete implementations of location repositories,
     ensuring they provide the necessary methods for creating and retrieving locations.
     """
+
+    @abc.abstractmethod
+    async def get_all(self) -> List[Location]:
+        raise NotImplementedError
 
     @abc.abstractmethod
     async def create(self, location: Location) -> None:
