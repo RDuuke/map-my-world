@@ -1,7 +1,10 @@
+from typing import List
+
 from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, status, Depends
 
-from src.api.handler.location import LocationCreateHandler
+from internal.location.model import Location
+from src.api.handler.location import LocationCreateHandler, LocationGetAllHandler
 from src.api.handler.location.schemas import LocationCreateSchema
 from src.app.config.dependencies.location.dependency_container import LocationDependencyContainer
 
@@ -19,3 +22,10 @@ async def create_location(
         If a location with the same coordinates already exists, a 409 (Conflict) error is returned.
     """
     await handler.execute(schema=schema)
+
+
+@router_location.get("/location", response_model=List[Location], tags=['location'])
+@inject
+async def get_all_location(
+        handler: LocationGetAllHandler = Depends(Provide[LocationDependencyContainer.location_get_all_handler])):
+    return await handler.execute()

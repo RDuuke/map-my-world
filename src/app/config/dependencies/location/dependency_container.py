@@ -3,8 +3,8 @@ import os
 from dependency_injector import containers, providers
 
 from internal.location.repository import LocationMongoRepository
-from internal.location.use_case import LocationCreateUseCase
-from src.api.handler.location import LocationCreateHandler
+from internal.location.use_case import LocationCreateUseCase, LocationGetAllUseCase
+from src.api.handler.location import LocationCreateHandler, LocationGetAllHandler
 
 
 class LocationDependencyContainer(containers.DeclarativeContainer):
@@ -41,6 +41,11 @@ class LocationDependencyContainer(containers.DeclarativeContainer):
     Injects the location repository (`location_repository`) as a dependency into the use case.
     """
 
+    location_geT_all_use_case = providers.Factory(
+        LocationGetAllUseCase,
+        repository=location_repository
+    )
+
     location_create_handler = providers.Factory(
         LocationCreateHandler,
         use_case=location_create_use_case,
@@ -50,3 +55,8 @@ class LocationDependencyContainer(containers.DeclarativeContainer):
 
     Injects the location creation use case (`location_create_use_case`) as a dependency into the handler.
     """
+
+    location_get_all_handler = providers.Factory(
+        LocationGetAllHandler,
+        use_case=location_geT_all_use_case
+    )
