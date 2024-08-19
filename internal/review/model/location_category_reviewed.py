@@ -1,27 +1,45 @@
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional, Dict
-
-from pydantic import BaseModel, Field
-
-from internal.category.model import Category
-from internal.location.model import Location
+from uuid import UUID, uuid4
 
 
-class Review(BaseModel):
-    id: str = Field(alias="_id")
-    location_id: str
-    category_id: str
+@dataclass
+class Review:
+    id: UUID
+    location_id: UUID
+    category_id: UUID
+    created: datetime
     last_reviewed: Optional[datetime] = None
-    created: Optional[datetime] = None
 
-    location: Optional[Location] = None
-    category: Optional[Category] = None
+    @classmethod
+    def create(cls, data: Dict) -> 'Review':
+        return cls(
+            id=uuid4(),
+            location_id=data.get('location_id'),
+            category_id=data.get('category_id'),
+            created=datetime.now()
+        )
+
+    @classmethod
+    def from_dict(cls, data: Dict) -> 'Review':
+        if isinstance(data.get('last_reviewed'), str):
+            data['last_reviewed'] = datetime.fromisoformat(data.get('last_reviewed'))
+
+        return cls(
+            id=UUID(data.get('id')),
+            location_id=UUID(data.get('location_id')),
+            category_id=UUID(data.get('category_id')),
+            created=datetime.fromisoformat(data.get('created')),
+            last_reviewed=data.get('last_reviewed')
+        )
 
     def to_dict(self) -> Dict:
         return {
-            "_id": self.id,
-            "location_id": self.location_id,
-            "category_id": self.category_id,
+            "_id": str(self.id),
+            "location_id": str(self.location_id),
+            "category_id": str(self.category_id),
             "created": self.created.isoformat(),
             "last_reviewed": self.last_reviewed.isoformat() if self.last_reviewed is not None else None
         }
+
