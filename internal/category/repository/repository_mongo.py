@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from internal.category.model import Category
 from internal.category.repository.repository import CategoryRepository
@@ -22,6 +22,12 @@ class CategoryMongoRepository(CategoryRepository, BaseRepository):
             client (MongoDBClient): An instance of the MongoDBClient class for database access.
         """
         self.client = MongoDBClient()
+
+    async def get_all(self) -> List[Category]:
+        await self.client.connect()
+        collection = self.client.db["categories"]
+        response = await collection.find({}).to_list(None)
+        return [Category(**(self.rename_id(cateogry))) for cateogry in response]
 
     async def create(self, category: Category) -> None:
         """
