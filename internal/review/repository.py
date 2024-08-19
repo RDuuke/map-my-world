@@ -11,7 +11,7 @@ class ReviewRepository(BaseRepository):
 
     def __init__(self, client: MongoDBClient):
         self.client = client
-        self.collection = self.client.db["location_category_reviewed"]
+        self.collection = self.client.db["reviewed"]
 
     async def create(self, review: Review) -> None:
         await self.collection.insert_one(review.to_dict())
