@@ -6,7 +6,7 @@ from uuid import UUID, uuid4
 
 @dataclass
 class Location:
-    id: UUID
+    uuid: UUID
     latitude: float
     longitude: float
     created: datetime
@@ -15,7 +15,7 @@ class Location:
     @classmethod
     def create(cls, data: Dict) -> 'Location':
         return cls(
-            id=uuid4(),
+            uuid=uuid4(),
             latitude=data.get('latitude'),
             longitude=data.get('longitude'),
             created=datetime.now()
@@ -23,7 +23,7 @@ class Location:
 
     def to_dict(self) -> Dict:
         return {
-            "_id": str(self.id),
+            "_id": str(self.uuid),
             "latitude": self.latitude,
             "longitude": self.longitude,
             "created": self.created.isoformat(),

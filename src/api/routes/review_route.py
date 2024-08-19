@@ -18,7 +18,7 @@ mongo_client = MongoDBClient()
 
 
 @router_review.post("/review", status_code=201, tags=['location'])
-async def create_location(command: ReviewCommand = Body(...)):
+async def create_review(command: ReviewCommand = Body(...)):
     await mongo_client.connect()
     repository = ReviewRepository(client=mongo_client)
     use_case = ReviewCreateUseCase(repository=repository)
@@ -27,17 +27,17 @@ async def create_location(command: ReviewCommand = Body(...)):
     await handler.execute(command=command)
 
 
-@router_review.put("/review/{id}", status_code=201, tags=['location'])
-async def update_location(id: UUID4):
+@router_review.put("/review/{uuid}", status_code=201, tags=['location'])
+async def add_reviewed(uuid: UUID4):
     await mongo_client.connect()
     repository = ReviewRepository(client=mongo_client)
     use_case = AddReviewUseCase(repository=repository)
     handler = AddReviewedHandler(use_case=use_case)
-    command = AddLastReviewedCommand(id=id)
+    command = AddLastReviewedCommand(uuid=uuid)
     await handler.execute(command=command)
 
 
-@router_review.get("/recommendations", response_model=List[Review], tags=['recommendations'])
+@router_review.get("/review/recommendations", response_model=List[Review], tags=['recommendations'])
 async def recommendations(deadline: datetime):
     await mongo_client.connect()
     repository = ReviewRepository(client=mongo_client)

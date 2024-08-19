@@ -6,7 +6,7 @@ from uuid import UUID, uuid4
 
 @dataclass
 class Review:
-    id: UUID
+    uuid: UUID
     location_id: UUID
     category_id: UUID
     created: datetime
@@ -15,7 +15,7 @@ class Review:
     @classmethod
     def create(cls, data: Dict) -> 'Review':
         return cls(
-            id=uuid4(),
+            uuid=uuid4(),
             location_id=data.get('location_id'),
             category_id=data.get('category_id'),
             created=datetime.now()
@@ -27,7 +27,7 @@ class Review:
             data['last_reviewed'] = datetime.fromisoformat(data.get('last_reviewed'))
 
         return cls(
-            id=UUID(data.get('id')),
+            uuid=UUID(data.get('uuid')),
             location_id=UUID(data.get('location_id')),
             category_id=UUID(data.get('category_id')),
             created=datetime.fromisoformat(data.get('created')),
@@ -36,7 +36,7 @@ class Review:
 
     def to_dict(self) -> Dict:
         return {
-            "_id": str(self.id),
+            "_id": str(self.uuid),
             "location_id": str(self.location_id),
             "category_id": str(self.category_id),
             "created": self.created.isoformat(),

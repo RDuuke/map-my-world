@@ -11,14 +11,14 @@ class ReviewRepository(BaseRepository):
 
     def __init__(self, client: MongoDBClient):
         self.client = client
-        self.collection = self.client.db["reviewed"]
+        self.collection = self.client.db["location_category_reviewed"]
 
     async def create(self, review: Review) -> None:
         await self.collection.insert_one(review.to_dict())
 
     async def update(self, review: Review) -> None:
         await self.collection.update_one(
-            {"_id": str(review.id)},
+            {"_id": str(review.uuid)},
             {"$set": {"last_reviewed": review.last_reviewed.isoformat()}}
         )
 
@@ -31,9 +31,9 @@ class ReviewRepository(BaseRepository):
 
         return None
 
-    async def find_by_id(self, id: UUID) -> Optional[Review]:
+    async def find_by_id(self, uuid: UUID) -> Optional[Review]:
         response = await self.collection.find_one({
-            "_id": str(id)
+            "_id": str(uuid)
         })
 
         if response:

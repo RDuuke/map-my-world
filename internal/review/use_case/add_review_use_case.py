@@ -11,7 +11,7 @@ class AddReviewUseCase:
 
     async def execute(self, command: AddLastReviewedCommand):
         review = await self.repository.find_by_id(
-            id=command.id
+            uuid=command.uuid
         )
 
         if review is None:
