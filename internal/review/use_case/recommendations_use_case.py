@@ -1,8 +1,8 @@
 from typing import List
 
-from internal.review import ReviewRepository
 from internal.review.model import Review
 from internal.review.query import ReviewRecommendationsQuery
+from internal.review.repository import ReviewRepository
 
 
 class ReviewRecommendationUseCase:
@@ -30,4 +30,3 @@ class ReviewRecommendationUseCase:
             A list of `Review` objects that meet the recommendation criteria (unreviewed or older than the deadline).
         """
         return await self.repository.find_unreviewed_old(deadline=query.deadline)
-    

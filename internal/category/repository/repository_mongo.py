@@ -14,15 +14,14 @@ class CategoryMongoRepository(CategoryRepository, BaseRepository):
     to perform operations like creating and retrieving categories.
     """
 
-    def __init__(self, client: MongoDBClient):
+    def __init__(self):
         """
         Initializes the CategoryMongoRepository with the provided MongoDB client.
 
         Args:
             client (MongoDBClient): An instance of the MongoDBClient class for database access.
         """
-        self.client = client
-        self.collection = self.client.db["categories"]  # Get a reference to the 'categories' collection
+        self.client = MongoDBClient()
 
     async def create(self, category: Category) -> None:
         """
@@ -31,7 +30,9 @@ class CategoryMongoRepository(CategoryRepository, BaseRepository):
         Args:
             category (Category): The Category object to be created.
         """
-        await self.collection.insert_one(category.to_dict())
+        await self.client.connect()
+        collection = self.client.db["categories"]
+        await collection.insert_one(category.to_dict())
 
     async def find_by_name(self, name: str) -> Optional[Category]:
         """
@@ -43,7 +44,10 @@ class CategoryMongoRepository(CategoryRepository, BaseRepository):
         Returns:
             The Category object if found, or None if no category with the given name exists.
         """
-        response = await self.collection.find_one({"name": name})
+        await self.client.connect()
+        collection = self.client.db["categories"]
+
+        response = await collection.find_one({"name": name})
         if response:
             return Category(**self.rename_id(response))
 

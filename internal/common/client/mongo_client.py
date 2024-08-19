@@ -1,9 +1,10 @@
 import os
 
+from dependency_injector.providers import Singleton
 from motor.motor_asyncio import AsyncIOMotorClient
 
 
-class MongoDBClient:
+class MongoDBClient():
     """
     A class to manage asynchronous connections to a MongoDB database.
     """

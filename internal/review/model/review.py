@@ -75,7 +75,7 @@ class Review:
             location_id=UUID(data.get('location_id')),
             category_id=UUID(data.get('category_id')),
             created=datetime.fromisoformat(data.get('created')),
-            last_reviewed=data.get('last_reviewed')
+            last_reviewed=data['last_reviewed']
         )
 
     def to_dict(self) -> Dict:
