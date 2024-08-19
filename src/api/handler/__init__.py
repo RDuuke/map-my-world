@@ -1,1 +1,1 @@
-from src.handler.handler import BaseHandler  # noqa :F401
+from src.api.handler.handler import BaseHandler  # noqa :F401
