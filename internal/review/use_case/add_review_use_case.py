@@ -2,16 +2,16 @@ from datetime import datetime
 
 from fastapi import HTTPException, status
 from internal.review import ReviewRepository
+from internal.review.command import AddLastReviewedCommand
 
 
 class AddReviewUseCase:
     def __init__(self, repository: ReviewRepository):
         self.repository = repository
 
-    async def execute(self, review_id: str):
-
+    async def execute(self, command: AddLastReviewedCommand):
         review = await self.repository.find_by_id(
-            review_id=review_id
+            uuid=command.uuid
         )
 
         if review is None:

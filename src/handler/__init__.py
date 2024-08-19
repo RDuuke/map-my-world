@@ -1,1 +1,0 @@
-from src.handler.handler import BaseHandler  # noqa :F401

@@ -1,20 +1,29 @@
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional, Dict
+from uuid import UUID, uuid4
 
-from pydantic import BaseModel, Field
 
-
-class Location(BaseModel):
-    id: str = Field(alias="_id")
-    latitude: float = Field(lt=90, gt=-90)
-    longitude: float = Field(lt=180, gt=-180)
-    created: Optional[datetime] = None
+@dataclass
+class Location:
+    uuid: UUID
+    latitude: float
+    longitude: float
+    created: datetime
     updated: Optional[datetime] = None
+
+    @classmethod
+    def create(cls, data: Dict) -> 'Location':
+        return cls(
+            uuid=uuid4(),
+            latitude=data.get('latitude'),
+            longitude=data.get('longitude'),
+            created=datetime.now()
+        )
 
     def to_dict(self) -> Dict:
         return {
-            "_id": self.id,
+            "_id": str(self.uuid),
             "latitude": self.latitude,
             "longitude": self.longitude,
             "created": self.created.isoformat(),

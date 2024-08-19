@@ -1,0 +1,1 @@
+from internal.review.query.recommendations_query import ReviewRecommendationsQuery  # noqa :F401

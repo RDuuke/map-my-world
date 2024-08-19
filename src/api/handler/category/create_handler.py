@@ -1,6 +1,6 @@
-from internal.category.model import Category
+from internal.category.command import CategoryCommand
 from internal.category.use_case import CategoryCreateUseCase
-from src.handler import BaseHandler
+from src.api.handler import BaseHandler
 
 
 class CategoryCreateHandler(BaseHandler):
@@ -9,6 +9,6 @@ class CategoryCreateHandler(BaseHandler):
         self.use_case = use_case
 
     @BaseHandler.handle_exceptions
-    async def execute(self, category: Category):
-        await self.use_case.execute(category=category)
+    async def execute(self, command: CategoryCommand):
+        await self.use_case.execute(command=command)
 

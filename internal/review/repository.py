@@ -1,11 +1,13 @@
 from datetime import datetime, timedelta
 from typing import Optional, List
+from uuid import UUID
 
 from internal.common.client import MongoDBClient
+from internal.common.repository import BaseRepository
 from internal.review.model import Review
 
 
-class ReviewRepository:
+class ReviewRepository(BaseRepository):
 
     def __init__(self, client: MongoDBClient):
         self.client = client
@@ -16,27 +18,26 @@ class ReviewRepository:
 
     async def update(self, review: Review) -> None:
         await self.collection.update_one(
-            {"_id": review.id},
+            {"_id": str(review.uuid)},
             {"$set": {"last_reviewed": review.last_reviewed.isoformat()}}
         )
 
-    async def find_by_location_and_category(self, review: Review) -> Optional[Review]:
+    async def find_by_location_and_category(self, location_id: UUID, category_id: UUID) -> Optional[Review]:
         response = await self.collection.find_one({
-            "location_id": review.location_id, "category_id": review.category_id
+            "location_id": str(location_id), "category_id": str(category_id)
         })
-
         if response:
-            return Review(**response)
+            return Review.from_dict(self.rename_id(response))
 
         return None
 
-    async def find_by_id(self, review_id: str) -> Optional[Review]:
+    async def find_by_id(self, uuid: UUID) -> Optional[Review]:
         response = await self.collection.find_one({
-            "_id": review_id
+            "_id": str(uuid)
         })
 
         if response:
-            return Review(**response)
+            return Review.from_dict(self.rename_id(response))
 
         return None
 
@@ -51,4 +52,4 @@ class ReviewRepository:
 
         response = await self.collection.find(query).limit(10).to_list(None)
 
-        return [Review(**review) for review in response]
+        return [Review.from_dict(self.rename_id(review)) for review in response]

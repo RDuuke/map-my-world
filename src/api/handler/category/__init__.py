@@ -1,0 +1,1 @@
+from src.api.handler.category.create_handler import CategoryCreateHandler  # noqa :F401
