@@ -8,6 +8,7 @@ services:
       - mongodb
     environment:
       - MONGO_URI=mongodb://mongodb:27017
+      - ENV=mongo_dev
 
   mongodb:
     build:

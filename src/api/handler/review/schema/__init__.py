@@ -1,0 +1,1 @@
+from src.api.handler.review.schema.create_schema import ReviewCreateSchema  # noqa :F401

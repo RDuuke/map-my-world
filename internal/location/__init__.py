@@ -1,1 +1,0 @@
-from internal.location.repository import LocationRepository  # noqa :F401
