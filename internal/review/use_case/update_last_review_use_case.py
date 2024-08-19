@@ -1,8 +1,8 @@
 from datetime import datetime
 
 from fastapi import HTTPException, status
-from internal.review import ReviewRepository
 from internal.review.command import ReviewUpdateLastReviewedCommand
+from internal.review.repository import ReviewRepository
 
 
 class ReviewUpdateLastReviewUseCase:

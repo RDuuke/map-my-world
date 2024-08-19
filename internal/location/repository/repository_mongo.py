@@ -1,3 +1,4 @@
+from abc import ABC
 from typing import Optional
 
 from internal.common.repository import BaseRepository
@@ -6,7 +7,7 @@ from internal.common.client import MongoDBClient
 from internal.location.repository import LocationRepository
 
 
-class LocationMongoRepository(LocationRepository, BaseRepository):
+class LocationMongoRepository(LocationRepository, BaseRepository, ABC):
     """
     Concrete implementation of the LocationRepository interface for MongoDB.
 
@@ -14,15 +15,14 @@ class LocationMongoRepository(LocationRepository, BaseRepository):
     to perform operations like creating and retrieving locations.
     """
 
-    def __init__(self, client: MongoDBClient):
+    def __init__(self):
         """
         Initializes the LocationMongoRepository with the provided MongoDB client.
 
         Args:
             client (MongoDBClient): An instance of the MongoDBClient class for database access.
         """
-        self.client = client
-        self.collection = self.client.db["locations"]  # Get a reference to the 'locations' collection
+        self.client = MongoDBClient()
 
     async def create(self, location: Location) -> None:
         """
@@ -31,7 +31,9 @@ class LocationMongoRepository(LocationRepository, BaseRepository):
         Args:
             location (Location): The Location object to be created.
         """
-        await self.collection.insert_one(location.to_dict())
+        await self.client.connect()
+        collection = self.client.db["locations"]
+        await collection.insert_one(location.to_dict())
 
     async def find_by_coordinate(self, latitude: float, longitude: float) -> Optional[Location]:
         """
@@ -44,3 +46,13 @@ class LocationMongoRepository(LocationRepository, BaseRepository):
         Returns:
             The Location object if found, or None if no location with the given coordinates exists.
         """
+
+        await self.client.connect()
+        collection = self.client.db["locations"]
+        response = await collection.find_one({
+            "latitude": latitude, "longitude": longitude
+        })
+        if response:
+            return Location(**self.rename_id(response))
+
+        return None

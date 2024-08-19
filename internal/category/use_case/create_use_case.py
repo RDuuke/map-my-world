@@ -1,8 +1,8 @@
 from fastapi import HTTPException, status
 
-from internal.category import CategoryRepository
 from internal.category.command import CategoryCreateCommand
 from internal.category.model import Category
+from internal.category.repository import CategoryRepository
 
 
 class CategoryCreateUseCase:

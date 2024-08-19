@@ -1,8 +1,8 @@
 from fastapi import HTTPException, status
 
-from internal.location import LocationRepository
 from internal.location.command import LocationCreateCommand
 from internal.location.model import Location
+from internal.location.repository import LocationRepository
 
 
 class LocationCreateUseCase:

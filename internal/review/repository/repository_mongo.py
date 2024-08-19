@@ -16,15 +16,14 @@ class ReviewMongoRepository(ReviewRepository, BaseRepository):
     to perform operations related to reviews, such as creating, updating, and retrieving reviews.
     """
 
-    def __init__(self, client: MongoDBClient):
+    def __init__(self):
         """
         Initializes the ReviewMongoRepository with the provided MongoDB client.
 
         Args:
             client (MongoDBClient): An instance of the MongoDBClient class for database access.
         """
-        self.client = client
-        self.collection = self.client.db["location_category_reviewed"]
+        self.client = MongoDBClient()
 
     async def create(self, review: Review) -> None:
         """
@@ -33,7 +32,9 @@ class ReviewMongoRepository(ReviewRepository, BaseRepository):
         Args:
             review (Review): The Review object to be created.
         """
-        await self.collection.insert_one(review.to_dict())
+        await self.client.connect()
+        collection = self.client.db["location_category_reviewed"]
+        await collection.insert_one(review.to_dict())
 
     async def update(self, review: Review) -> None:
         """
@@ -42,7 +43,10 @@ class ReviewMongoRepository(ReviewRepository, BaseRepository):
         Args:
             review (Review): The Review object to be updated.
         """
-        await self.collection.update_one(
+        await self.client.connect()
+        collection = self.client.db["location_category_reviewed"]
+
+        await collection.update_one(
             {"_id": str(review.uuid)},
             {"$set": {"last_reviewed": review.last_reviewed.isoformat()}}
         )
@@ -58,9 +62,14 @@ class ReviewMongoRepository(ReviewRepository, BaseRepository):
         Returns:
             The Review object if found, or None if no review with the given location and category exists.
         """
-        response = await self.collection.find_one({
+
+        await self.client.connect()
+        collection = self.client.db["location_category_reviewed"]
+
+        response = await collection.find_one({
             "location_id": str(location_id), "category_id": str(category_id)
         })
+
         if response:
             return Review.from_dict(self.rename_id(response))
 
@@ -76,7 +85,11 @@ class ReviewMongoRepository(ReviewRepository, BaseRepository):
         Returns:
             The Review object if found, or None if no review with the given UUID exists.
         """
-        response = await self.collection.find_one({
+
+        await self.client.connect()
+        collection = self.client.db["location_category_reviewed"]
+
+        response = await collection.find_one({
             "_id": str(uuid)
         })
 
@@ -104,6 +117,9 @@ class ReviewMongoRepository(ReviewRepository, BaseRepository):
             ]
         }
 
-        response = await self.collection.find(query).limit(10).to_list(None)
+        await self.client.connect()
+        collection = self.client.db["location_category_reviewed"]
+
+        response = await collection.find(query).limit(10).to_list(None)
 
         return [Review.from_dict(self.rename_id(review)) for review in response]
