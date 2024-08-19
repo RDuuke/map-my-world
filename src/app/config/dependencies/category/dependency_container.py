@@ -1,8 +1,8 @@
 import os
 from dependency_injector import providers, containers
 from internal.category.repository import CategoryMongoRepository
-from internal.category.use_case import CategoryCreateUseCase
-from src.api.handler.category import CategoryCreateHandler
+from internal.category.use_case import CategoryCreateUseCase, CategoryGetAllUseCase
+from src.api.handler.category import CategoryCreateHandler, CategoryGetAllHandler
 
 
 class CategoryDependencyContainer(containers.DeclarativeContainer):
@@ -37,6 +37,11 @@ class CategoryDependencyContainer(containers.DeclarativeContainer):
     Inyecta el repositorio de categorías (`category_repository`) como dependencia en el caso de uso.
     """
 
+    category_get_all_use_case = providers.Factory(
+        CategoryGetAllUseCase,
+        repository=category_repository
+    )
+
     category_create_handler = providers.Factory(
         CategoryCreateHandler,
         use_case=category_create_use_case,
@@ -46,3 +51,8 @@ class CategoryDependencyContainer(containers.DeclarativeContainer):
 
     Inyecta el caso de uso de creación de categorías (`category_create_use_case`) como dependencia en el handler.
     """
+
+    category_get_all_handler = providers.Factory(
+        CategoryGetAllHandler,
+        use_case=category_get_all_use_case
+    )
