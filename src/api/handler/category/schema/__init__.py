@@ -1,0 +1,1 @@
+from src.api.handler.category.schema.create_schema import CategoryCreateSchema  # noqa :F401
