@@ -1,6 +1,6 @@
 import abc
 from abc import ABC
-from typing import Optional
+from typing import Optional, List
 
 from internal.category.model import Category
 
@@ -12,6 +12,10 @@ class CategoryRepository(ABC):
     This class establishes the contract for concrete implementations of category repositories,
     ensuring they provide the necessary methods for creating and retrieving categories.
     """
+
+    @abc.abstractmethod
+    async def get_all(self) -> List[Category]:
+        raise NotImplementedError
 
     @abc.abstractmethod
     async def create(self, category: Category) -> None:

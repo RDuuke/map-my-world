@@ -1,7 +1,10 @@
+from typing import List
+
 from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, status, Depends
 
-from src.api.handler.category import CategoryCreateHandler
+from internal.category.model import Category
+from src.api.handler.category import CategoryCreateHandler, CategoryGetAllHandler
 from src.api.handler.category.schema import CategoryCreateSchema
 from src.app.config.dependencies.category.dependency_container import CategoryDependencyContainer
 
@@ -19,3 +22,10 @@ async def create_category(
         If a category with the same name already exists, a 409 (Conflict) error is returned.
     """
     await handler.execute(schema=schema)
+
+
+@router_category.get("/category", response_model=List[Category], tags=['category'])
+@inject
+async def get_all_location(
+        handler: CategoryGetAllHandler = Depends(Provide[CategoryDependencyContainer.category_get_all_handler])):
+    return await handler.execute()
