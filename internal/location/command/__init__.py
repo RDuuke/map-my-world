@@ -1,0 +1,1 @@
+from internal.location.command.create_command import LocationCommand  # noqa :F401

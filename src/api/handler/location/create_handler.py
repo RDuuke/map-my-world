@@ -1,6 +1,6 @@
-from internal.location.model import Location
+from internal.location.command import LocationCommand
 from internal.location.use_case import LocationCreateUseCase
-from src.handler import BaseHandler
+from src.api.handler import BaseHandler
 
 
 class LocationCreateHandler(BaseHandler):
@@ -9,6 +9,6 @@ class LocationCreateHandler(BaseHandler):
         self.use_case = use_case
 
     @BaseHandler.handle_exceptions
-    async def execute(self, location: Location):
-        await self.use_case.execute(location=location)
+    async def execute(self, command: LocationCommand):
+        await self.use_case.execute(command=command)
 
