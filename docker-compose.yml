@@ -10,6 +10,8 @@ services:
       - MONGO_URI=mongodb://mongodb:27017
 
   mongodb:
-    image: mongo
+    build:
+      context: .
+      dockerfile: Dockerfile_mongo
     ports:
       - "27017:27017"
