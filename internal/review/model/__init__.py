@@ -1,1 +1,1 @@
-from internal.review.model.location_category_reviewed import Review  # noqa :F401
+from internal.review.model.review import Review  # noqa :F401
