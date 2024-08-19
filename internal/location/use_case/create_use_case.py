@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 
 from internal.location import LocationRepository
-from internal.location.command import LocationCommand
+from internal.location.command import LocationCreateCommand
 from internal.location.model import Location
 
 
@@ -9,7 +9,7 @@ class LocationCreateUseCase:
     def __init__(self, repository: LocationRepository):
         self.repository = repository
 
-    async def execute(self, command: LocationCommand) -> None:
+    async def execute(self, command: LocationCreateCommand) -> None:
         existing_location = await self.repository.find_by_coordinate(
             latitude=command.latitude,
             longitude=command.longitude

@@ -1,1 +1,1 @@
-from internal.category.command.create_command import CategoryCommand  # noqa: F401
+from internal.category.command.create_command import CategoryCreateCommand  # noqa: F401

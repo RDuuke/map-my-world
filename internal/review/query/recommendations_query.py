@@ -1,7 +1,7 @@
+from dataclasses import dataclass
 from datetime import datetime
 
-from pydantic import BaseModel
 
-
-class ReviewRecommendationsQuery(BaseModel):
+@dataclass
+class ReviewRecommendationsQuery:
     deadline: datetime

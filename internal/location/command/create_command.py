@@ -1,6 +1,15 @@
-from pydantic import BaseModel, Field
+from dataclasses import dataclass
+from typing import Dict
 
 
-class LocationCommand(BaseModel):
-    latitude: float = Field(lt=90, gt=-90)
-    longitude: float = Field(lt=180, gt=-180)
+@dataclass
+class LocationCreateCommand:
+    latitude: float
+    longitude: float
+
+    @classmethod
+    def from_dict(cls, data: Dict) -> 'LocationCreateCommand':
+        return cls(
+            latitude=data.get('latitude'),
+            longitude=data.get('longitude')
+        )

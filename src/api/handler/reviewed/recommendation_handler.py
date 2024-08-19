@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from internal.review.query import ReviewRecommendationsQuery
 from internal.review.use_case import ReviewRecommendationUseCase
 from src.api.handler import BaseHandler
@@ -9,5 +11,6 @@ class ReviewRecommendationHandler(BaseHandler):
         self.use_case = use_case
 
     @BaseHandler.handle_exceptions
-    async def execute(self, query: ReviewRecommendationsQuery):
+    async def execute(self, deadline: datetime):
+        query = ReviewRecommendationsQuery(deadline=deadline)
         return await self.use_case.execute(query=query)

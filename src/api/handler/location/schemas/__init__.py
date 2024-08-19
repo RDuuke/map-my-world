@@ -1,0 +1,1 @@
+from src.api.handler.location.schemas.create_schema import LocationCreateSchema  # noqa :F401
