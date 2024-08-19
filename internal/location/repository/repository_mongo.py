@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Optional
+from typing import Optional, List
 
 from internal.common.repository import BaseRepository
 from internal.location.model import Location
@@ -23,6 +23,12 @@ class LocationMongoRepository(LocationRepository, BaseRepository, ABC):
             client (MongoDBClient): An instance of the MongoDBClient class for database access.
         """
         self.client = MongoDBClient()
+
+    async def get_all(self) -> List[Location]:
+        await self.client.connect()
+        collection = self.client.db["locations"]
+        response = await collection.find({}).to_list(None)
+        return [Location(**(self.rename_id(location))) for location in response]
 
     async def create(self, location: Location) -> None:
         """
@@ -56,3 +62,7 @@ class LocationMongoRepository(LocationRepository, BaseRepository, ABC):
             return Location(**self.rename_id(response))
 
         return None
+
+    async def init_connect(self):
+        await self.client.connect()
+        self.collection = self.client.db["locations"]
