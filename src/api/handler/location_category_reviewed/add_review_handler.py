@@ -1,5 +1,5 @@
 from internal.review.use_case import AddReviewUseCase
-from src.handler import BaseHandler
+from src.api.handler import BaseHandler
 
 
 class AddReviewedHandler(BaseHandler):

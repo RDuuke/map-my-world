@@ -1,6 +1,6 @@
 from internal.category.model import Category
 from internal.category.use_case import CategoryCreateUseCase
-from src.handler import BaseHandler
+from src.api.handler import BaseHandler
 
 
 class CategoryCreateHandler(BaseHandler):
